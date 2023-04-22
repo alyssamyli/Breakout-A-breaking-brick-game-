@@ -1,0 +1,111 @@
+\documentclass{article}
+
+% Language setting
+% Replace `english' with e.g. `spanish' to change the document language
+\usepackage[english]{babel}
+
+% Set page size and margins
+% Replace `letterpaper' with `a4paper' for UK/EU standard size
+\usepackage[letterpaper,top=2cm,bottom=2cm,left=3cm,right=3cm,marginparwidth=1.75cm]{geometry}
+
+% Useful packages
+\usepackage{amsmath}
+\usepackage{graphicx}
+\usepackage[colorlinks=true, allcolors=blue]{hyperref}
+
+\title{Breakout project report}
+\author{Hongshuo Zhou, Mengyuan Li}
+
+\begin{document}
+\maketitle
+
+\section{Memory allocation}
+In our project, we decide to store :
+
+
+-the address of the bitmap display(immutable data)
+
+
+-the address of the keyboard(immutable data)
+
+
+-the colours used to draw lines and pixels(immutable data)
+
+
+-the coordinates of our data(mutable data)
+
+
+-the coordinates and moving direction of our ball(mutable data)
+
+-Collision Flags that used to record if there is collision happened.
+
+-handle collision flags
+
+-$LIVES\_LEFT$ which is how many lives user have left before losing the game
+
+-$SLEEP\_TIME$ which is the sleep time of each cycle
+
+\begin{figure}[ht!]
+    \centering
+    \includegraphics[width=0.6\textwidth]{Screen Shot 2022-12-06 at 01.36.06.png}
+    \caption{An image of memory}
+    \label{f:part1}
+\end{figure}
+
+
+\section{Static Scene}
+\begin{figure}[ht!]
+    \centering
+    \includegraphics[width=0.6\textwidth]{Screen Shot 2022-12-06 at 01.16.49.png}
+    \caption{An image of our static scene(initialized screen)}
+    \label{f:part1}
+\end{figure}
+
+
+
+
+\section{How will the ball change directions when it collides?}
+We use movement coordinates to represent the direction the ball moves which is stored in $BALL\_DATA$ the memory section.
+
+Our setting is when x = 0, ball moves left, when x = 1 ball moves right; when y = 0, ball moves down, when y = 1, ball moves up.
+
+we can split all situations into following cases(the pic is shown below):
+
+$Case\_one$:
+The only obstacle appears on the $top$ of the ball. Now movement coordinates of y changed from 1 to 0,x unchanged.
+
+
+$Case\_two$:
+The only obstacle appears on the $bottom$ of the ball. Now movement coordinates of y changed from 1 to 0,x unchanged.
+
+
+$Case\_three$:
+The only obstacle appears on the $left$ of the ball, the collision occurred on the left side of it. Now movement coordinates of x toggled where y remains the same.
+
+
+$Case\_four$:
+Obstacles appeared on $top$ and $left$ of the ball. Now movement coordinates of both x and y toggled(from 0 to 1, 1 to 0).
+
+
+
+$Case\_five$:
+The only obstacle appears on the $diagonal$ of the ball. Now movement coordinates of both x and y toggled.
+\begin{figure}[ht!]
+    \centering
+    \includegraphics[width=0.6\textwidth]{movement_draft.jpeg}
+    \caption{A demonstration of above cases}
+    \label{f:part1}
+\end{figure}
+
+\section{HOW TO PLAY OUR GAME:}
+Set up instructions:
+
+In bitmap display, choose 8 for unit width and unit height in pixels. Choose $256 X 256$ for display size. Connect both bitmap display and keyboard.
+
+1.In order to win the game, users need to break all of the bricks off except for the grey unbreakable brick before losing all 3 lives. Bricks need to be broken by ball for twice, in the first collision, the brick will turn red, in the second collision, the brick will disappear. Users need to use keyboard input $a$ and $d$ to control the movement of the paddle moving left and moving right in order to bounce the ball into any direction they want. Users will notice the speed of ball movement also changes when collision happens.
+
+2.When the ball falls on the ground instead of being hold be the paddle, user will lose one live, after losing all 3 lives, users will see a yellow game over screen and they can choose to press $r$ to restart or $q$ to quit the game.
+
+3.When user want to pause the game, pressing $p$ and when user is ready to restart the game, they can start exactly at the place they left by pressing $p$ again.
+
+\end{document}
